@@ -5,6 +5,7 @@ export default function App() {
   const [name, setName] = React.useState<string>("");
   const [age, setAge] = React.useState<string | undefined>("");
   const [color, setColor] = React.useState<string | undefined>("red");
+  const [gender, setGender] = React.useState("male");
 
   const changeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -23,17 +24,68 @@ export default function App() {
     console.log(name, age, color);
   };
 
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setGender(event.target.value);
+  };
+
+  const resetRadioState = () => {
+    setGender("");
+  };
+
   return (
+    // <div className="theContents">
     <div className="pa-16">
-      <form onSubmit={handleSubmit}>
-        <Input name="Name" value={name} onChange={changeName} />
-        <Input name="Age" value={age} onChange={changeAge} />
-        <Select name="Favourite Color" value={color} onChange={changeColor} />
-        <button type="submit" className="btn-primary mb-16">
-          Submit
-        </button>
-        <button className="btn-secondary">Clear</button>
-      </form>
+      <div className="d-flex v-center h-center">
+        <div className="w-50">
+          <h2>Fill the Form!</h2>
+          <form onSubmit={handleSubmit}>
+            <Input name="Name" value={name} onChange={changeName} />
+            <Input name="Age" value={age} onChange={changeAge} />
+            <p>Gender</p>
+            <div className="d-flex h-center pa-16 w-50">
+              <input
+                type="radio"
+                value="male"
+                checked={gender === "male"}
+                onChange={handleChange}
+              />{" "}
+              Male
+              <input
+                type="radio"
+                value="female"
+                checked={gender === "female"}
+                onChange={handleChange}
+              />{" "}
+              Female
+            </div>
+            <div>
+              <button
+                type="reset"
+                id="resetFunction"
+                onClick={resetRadioState}
+              />
+            </div>
+
+            <Select
+              name="Favourite Color"
+              value={color}
+              onChange={changeColor}
+            />
+            <button type="submit" className="btn-primary mb-16">
+              Submit
+            </button>
+            <button className="btn-secondary">Clear</button>
+          </form>
+        </div>
+        <div className="w-50 pa-4">
+          <p className="special-text">
+            {name} is {age} years old, and he is very handsome guy who likes{" "}
+            {color} color
+          </p>
+        </div>
+      </div>{" "}
     </div>
   );
 }
